@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/euphdk/growatt-export-limit-control/energidataservice"
 	"github.com/euphdk/growatt-export-limit-control/inverter"
+	"log/slog"
 )
 
 func main() {
@@ -28,13 +28,13 @@ func main() {
 	}
 
 	if exportEnabled && negativePrice {
-		fmt.Println("Export enabled, but negative price: Disabling")
+		slog.Info("Export enabled, but negative price: Disabling")
 		err := inverter.ExportDisable()
 		if err != nil {
 			panic(err)
 		}
 	} else if !exportEnabled && !negativePrice {
-		fmt.Println("Export disabled, but positive price: Enabling")
+		slog.Info("Export disabled, but positive price: Enabling")
 		err := inverter.ExportEnable()
 		if err != nil {
 			panic(err)
