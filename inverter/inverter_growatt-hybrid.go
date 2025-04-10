@@ -37,7 +37,7 @@ func NewInverterGrowattHybrid(url string) *InverterGrowattHybrid {
 
 }
 
-func (i InverterGrowattHybrid) IsExportEnabled() (bool, error) {
+func (i *InverterGrowattHybrid) IsExportEnabled() (bool, error) {
 	err := i.client.Open()
 	if err != nil {
 		return true, fmt.Errorf("client.Open error: %s", err.Error())
@@ -60,7 +60,7 @@ func (i InverterGrowattHybrid) IsExportEnabled() (bool, error) {
 
 }
 
-func (i InverterGrowattHybrid) ExportEnable() error {
+func (i *InverterGrowattHybrid) ExportEnable() error {
 	err := i.client.Open()
 	if err != nil {
 		return fmt.Errorf("client.Open error: %s", err.Error())
@@ -75,7 +75,7 @@ func (i InverterGrowattHybrid) ExportEnable() error {
 	return nil
 }
 
-func (i InverterGrowattHybrid) ExportDisable() error {
+func (i *InverterGrowattHybrid) ExportDisable() error {
 	err := i.client.Open()
 	if err != nil {
 		return fmt.Errorf("client.Open error: %s", err.Error())
