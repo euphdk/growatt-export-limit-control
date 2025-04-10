@@ -29,18 +29,33 @@ func main() {
 	}
 
 	if exportEnabled && negativePrice {
-		slog.Info("Export enabled, but negative price: Disabling", "exportEnabled", exportEnabled, "negativePrice", negativePrice, "currentPrice", currentPrice)
+		slog.Info(
+			"Export enabled, but negative price: Disabling",
+			"exportEnabled", exportEnabled,
+			"negativePrice", negativePrice,
+			"currentPrice", currentPrice,
+		)
 		err := inverter.ExportDisable()
 		if err != nil {
 			panic(err)
 		}
 	} else if !exportEnabled && !negativePrice {
-		slog.Info("Export disabled, but positive price: Enabling", "exportEnabled", exportEnabled, "negativePrice", negativePrice, "currentPrice", currentPrice)
+		slog.Info(
+			"Export disabled, but positive price: Enabling",
+			"exportEnabled", exportEnabled,
+			"negativePrice", negativePrice,
+			"currentPrice", currentPrice,
+		)
 		err := inverter.ExportEnable()
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		slog.Info("Not changing anything", "exportEnabled", exportEnabled, "negativePrice", negativePrice, "currentPrice", currentPrice)
+		slog.Info(
+			"Not changing anything",
+			"exportEnabled", exportEnabled,
+			"negativePrice", negativePrice,
+			"currentPrice", currentPrice,
+		)
 	}
 }
