@@ -10,12 +10,12 @@ import (
 func main() {
 	eds := energidataservice.NewEnergiDataservice()
 
-	var negativePrice bool
 	currentPrice, err := eds.CurrentElspotPrice()
 	if err != nil {
 		panic(err)
 	}
 
+	var negativePrice bool
 	if currentPrice < 0 {
 		negativePrice = true
 	} else {
