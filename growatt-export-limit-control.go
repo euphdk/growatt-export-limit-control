@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+
+	priceLimit := 100.0
+
 	eds := energidataservice.NewEnergiDataservice()
 
 	currentPrice, err := eds.CurrentElspotPrice()
@@ -15,11 +18,11 @@ func main() {
 		panic(err)
 	}
 
-	var negativePrice bool
-	if currentPrice < 0 {
-		negativePrice = true
+	var priceBelowLimit bool
+	if currentPrice < priceLimit {
+		priceBelowLimit = true
 	} else {
-		negativePrice = false
+		priceBelowLimit = false
 	}
 
 	inverter := inverter.NewInverterGrowattHybrid("tcp://192.168.255.44:5021")
@@ -28,22 +31,22 @@ func main() {
 		panic(err)
 	}
 
-	if exportEnabled && negativePrice {
+	if exportEnabled && priceBelowLimit {
 		slog.Info(
-			"Export enabled, but negative price: Disabling",
+			"Export enabled, but price below priceLimit: Disabling",
 			"exportEnabled", exportEnabled,
-			"negativePrice", negativePrice,
+			"priceLimit", priceBelowLimit,
 			"currentPrice", currentPrice,
 		)
 		err := inverter.ExportDisable()
 		if err != nil {
 			panic(err)
 		}
-	} else if !exportEnabled && !negativePrice {
+	} else if !exportEnabled && !priceBelowLimit {
 		slog.Info(
-			"Export disabled, but positive price: Enabling",
+			"Export disabled, but price above priceLimit: Enabling",
 			"exportEnabled", exportEnabled,
-			"negativePrice", negativePrice,
+			"priceLimit", priceBelowLimit,
 			"currentPrice", currentPrice,
 		)
 		err := inverter.ExportEnable()
@@ -54,7 +57,7 @@ func main() {
 		slog.Info(
 			"Not changing anything",
 			"exportEnabled", exportEnabled,
-			"negativePrice", negativePrice,
+			"priceLimit", priceBelowLimit,
 			"currentPrice", currentPrice,
 		)
 	}
